@@ -1,4 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![picture](home.png)
+
+
 # Mandatory Exercise 2 - Advanced
 JavaScript with React
 The deadline for this exercise is Friday, March 29, 08:59.
