@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Helmet } from "react-helmet";
+import { Redirect } from 'react-router-dom'
 import 'materialize-css/dist/css/materialize.min.css';
 
 export default class EditMovie extends Component {
@@ -8,7 +9,8 @@ export default class EditMovie extends Component {
         super(props)
         this.state = {
             movie: null,
-            finished: false
+            finished: false,
+            errorMessage: null
         };
         this.onChangeTitle = this.onChangeTitle.bind(this);
         this.onChangeDescription = this.onChangeDescription.bind(this);
@@ -67,19 +69,20 @@ export default class EditMovie extends Component {
             .then(response => {
                 this.setState({ finished: true });
             })
-            .catch(err => {
-                if (axios.isCancel(err)) {
-                    return;
+            .catch(error => {
+                console.log(error);
+                if (!axios.isCancel(error)) {
+                    this.setState({ errorMessage: "Something went wrong!" });
                 }
             });
     }
     render() {
-        const movie = this.state.movie
+        const { movie, finished, errorMessage } = this.state
         // const finished = this.state
         console.log(movie);
-        // if (finished) {
-        //     return <Redirect to="/" />;
-        // }
+        if (finished) {
+            return <Redirect to="/" />;
+        }
         return (
             <div className="edit__movie">
                 <Helmet>
@@ -130,7 +133,7 @@ export default class EditMovie extends Component {
                                 />
                             </p>
                         </label>
-
+                        {errorMessage ? <p style={{ color: "red" }}>{errorMessage}</p> : null}
                         <button type="submit">Save</button>
                     </form>
                 ) : (
